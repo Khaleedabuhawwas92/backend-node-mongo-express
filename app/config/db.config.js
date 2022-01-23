@@ -1,3 +1,3 @@
 module.exports = {
-   url: "mongodb+srv://doadmin:4HCBq058Kb2X7i63@miniviwe-3a02bdbf.mongo.ondigitalocean.com/admin?authSource=admin&replicaSet=miniviwe&tls=true",
+   url: "mongodb+srv://doadmin:L823op17hx6H5m4c@db-mongodb-fra1-16206-ba751473.mongo.ondigitalocean.com/admin?authSource=admin&tls=true",
 };
