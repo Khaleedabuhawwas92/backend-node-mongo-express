@@ -24,6 +24,8 @@ db.mongoose
    .connect(db.url, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      tls: true,
+      tlsCAFile: './ca-certificate.crt',
    })
    .then(() => {
       console.log("Connected to the database!");
