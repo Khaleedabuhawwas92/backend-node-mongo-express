@@ -1,5 +1,5 @@
-const db = require("../models");
-const serves = require("../services/serversUser");
+const db = require('../models');
+const serves = require('../services/serversUser');
 const User = db.user;
 
 // Create and Save a new daet
@@ -7,7 +7,7 @@ exports.create = (req, res) => {
    // Validate request
 
    if (!req.body.name) {
-      res.status(400).send({ message: "Content can not be empty!" });
+      res.status(400).send({ message: 'Content can not be empty!' });
       return;
    }
 
@@ -19,19 +19,27 @@ exports.create = (req, res) => {
       password: serves.Encryption(req.body.password),
       isAdmain: req.body.isAdmain ? req.body.isAdmain : false,
       published: req.body.published ? req.body.published : true,
+      roles: [
+         {
+            insert: req.body.insert ? req.body.insert : false,
+            delete: req.body.delete ? req.body.delete : false,
+            read: req.body.read ? req.body.read : false,
+            write: req.body.write ? req.body.write : false,
+         },
+      ],
    });
    const token = user.token();
    user.auth = token;
-   // Save locatins in the database
+   // Save users in the database
    user
       .save(user)
       .then((data) => {
-         res.header("Authorization", token).send(data);
+         res.header('Authorization', token).send(data);
       })
       .catch((err) => {
          res.status(500).send({
             message:
-               err.message || "Some error occurred while creating the user",
+               err.message || 'Some error occurred while creating the user',
          });
       });
 };
@@ -40,9 +48,8 @@ exports.create = (req, res) => {
 exports.findAll = async (req, res) => {
    const name = req.query.name;
    var condition = name
-      ? { name: { $regex: new RegExp(name), $options: "i" } }
+      ? { name: { $regex: new RegExp(name), $options: 'i' } }
       : {};
-
    await User.find(condition)
       .then((data) => {
          res.send(data);
@@ -52,7 +59,7 @@ exports.findAll = async (req, res) => {
          res.status(500).send({
             message:
                err.message ||
-               "Some error occurred while retrieving user.......",
+               'Some error occurred while retrieving user.......',
          });
       });
 };
@@ -65,13 +72,13 @@ exports.findOne = async (req, res) => {
       .then((data) => {
          if (!data)
             res.status(404).send({
-               message: "Not found user with id " + id,
+               message: 'Not found user with id ' + id,
             });
          else res.send(data);
       })
       .catch((err) => {
          res.status(500).send({
-            message: "Error retrieving user with id=" + id,
+            message: 'Error retrieving user with id=' + id,
          });
       });
 };
@@ -80,23 +87,22 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
    if (!req.body) {
       return res.status(400).send({
-         message: "Data to update can not be empty!",
+         message: 'Data to update can not be empty!',
       });
    }
 
    const id = req.params.id;
-
    await User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       .then((data) => {
          if (!data) {
             res.status(404).send({
                message: `Cannot update calender with id=${id}. Maybe User was not found!`,
             });
-         } else res.send({ message: "User was updated successfully." });
+         } else res.send({ message: 'User was updated successfully.' });
       })
       .catch((err) => {
          res.status(500).send({
-            message: "Error updating User with id=" + id,
+            message: 'Error updating User with id=' + id,
          });
       });
 };
@@ -105,7 +111,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
    const id = req.params.id;
    if (!req.body.name) {
-      res.status(400).send({ message: "Content can not be empty!" });
+      res.status(400).send({ message: 'Content can not be empty!' });
       return;
    }
 
@@ -117,13 +123,13 @@ exports.delete = async (req, res) => {
             });
          } else {
             res.send({
-               message: "User was deleted successfully!",
+               message: 'User was deleted successfully!',
             });
          }
       })
       .catch((err) => {
          res.status(500).send({
-            message: "Could not delete User with id=" + id,
+            message: 'Could not delete User with id=' + id,
          });
       });
 };
@@ -148,13 +154,13 @@ exports.published = async (req, res) => {
                message: `Cannot update user with id=${id}. Maybe user was not found!`,
             });
          } else {
-            res.send({ message: "user was updated successfully." });
+            res.send({ message: 'user was updated successfully.' });
             console.log(`user was unDisplay successfully. ${id}`);
          }
       })
       .catch((err) => {
          res.status(500).send({
-            message: "Error updating user with id=" + id,
+            message: 'Error updating user with id=' + id,
          });
       });
 };
@@ -178,13 +184,13 @@ exports.recovery = async (req, res) => {
                message: `Cannot update calender with id=${id}. Maybe calender was not found!`,
             });
          } else {
-            res.send({ message: "calender was updated successfully." });
+            res.send({ message: 'calender was updated successfully.' });
             console.log(`calender was Recovery successfully. ${id}`);
          }
       })
       .catch((err) => {
          res.status(500).send({
-            message: "Error updating calender with id=" + id,
+            message: 'Error updating calender with id=' + id,
          });
       });
 };
@@ -200,7 +206,7 @@ exports.deleteAll = async (req, res) => {
       .catch((err) => {
          res.status(500).send({
             message:
-               err.message || "Some error occurred while removing all User.",
+               err.message || 'Some error occurred while removing all User.',
          });
       });
 };
@@ -219,7 +225,7 @@ exports.findAllPublished = async (req, res) => {
       .catch((err) => {
          res.status(500).send({
             message:
-               err.message || "Some error occurred while retrieving calenders.",
+               err.message || 'Some error occurred while retrieving calenders.',
          });
       });
 };
@@ -231,7 +237,7 @@ exports.findAllunPublished = async (req, res) => {
       .catch((err) => {
          res.status(500).send({
             message:
-               err.message || "Some error occurred while retrieving calenders.",
+               err.message || 'Some error occurred while retrieving calenders.',
          });
       });
 };

@@ -1,3 +1,3 @@
 module.exports = {
-   url: "mongodb+srv://doadmin:L823op17hx6H5m4c@db-mongodb-fra1-16206-ba751473.mongo.ondigitalocean.com/admin?authSource=admin&tls=true",
+   url: "mongodb+srv://Khaled:khaleed2010709307@khaleed.jbeyu.mongodb.net/test?authSource=admin&replicaSet=atlas-11jbls-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true",
 };

@@ -9,6 +9,13 @@ module.exports = (mongoose) => {
          auth: { type: String },
          published: Boolean,
          isAdmain: Boolean,
+         roles:[{
+            insert:Boolean,
+            delete:Boolean,
+            read:Boolean,
+            write:Boolean
+
+         }]
       },
       { timestamps: true }
    );
